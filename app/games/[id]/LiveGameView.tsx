@@ -198,7 +198,7 @@ export default function LiveGameView({
     );
 
   return (
-    <main className="mx-auto max-w-7xl px-6 py-10">
+    <main className="mx-auto w-full min-w-0 max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
 
       <Link
         href="/games"
@@ -209,9 +209,9 @@ export default function LiveGameView({
 
       {/* LIVE SCOREBOARD */}
 
-      <section className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-8">
+      <section className="mt-4 min-w-0 rounded-2xl border border-zinc-800 bg-zinc-900 p-4 sm:mt-6 sm:p-8">
 
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-3">
 
           <div className="text-sm text-zinc-400">
             {game.game_date}
@@ -241,11 +241,11 @@ export default function LiveGameView({
           </div>
         )}
 
-        <div className="mt-10 grid grid-cols-[1fr_auto_1fr] items-center gap-8">
+        <div className="mt-6 grid min-w-0 grid-cols-2 items-start gap-x-4 gap-y-5 sm:mt-10 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] sm:items-center sm:gap-6">
 
           {/* HOME */}
 
-          <div>
+          <div className="order-2 min-w-0 sm:order-1">
 
             <p className="text-sm uppercase text-zinc-500">
               Home
@@ -253,7 +253,7 @@ export default function LiveGameView({
 
             <Link
               href={`/teams/${game.home_team_id}`}
-              className="mt-2 block text-2xl font-black hover:underline"
+              className="mt-2 block text-base leading-snug font-black [overflow-wrap:anywhere] hover:underline sm:text-xl lg:text-2xl"
             >
               {homeTeam?.name}
             </Link>
@@ -263,7 +263,7 @@ export default function LiveGameView({
 
           {/* SCORE */}
 
-          <div className="flex items-center gap-6 text-6xl font-black">
+          <div className="order-1 col-span-2 flex min-w-0 items-center justify-center gap-3 whitespace-nowrap text-5xl font-black tabular-nums sm:order-2 sm:col-span-1 sm:gap-4 lg:gap-6 lg:text-6xl">
 
             <span>
               {game.home_score ?? 0}
@@ -282,7 +282,7 @@ export default function LiveGameView({
 
           {/* AWAY */}
 
-          <div className="text-right">
+          <div className="order-3 min-w-0 text-right">
 
             <p className="text-sm uppercase text-zinc-500">
               Away
@@ -290,7 +290,7 @@ export default function LiveGameView({
 
             <Link
               href={`/teams/${game.away_team_id}`}
-              className="mt-2 block text-2xl font-black hover:underline"
+              className="mt-2 block text-base leading-snug font-black [overflow-wrap:anywhere] hover:underline sm:text-xl lg:text-2xl"
             >
               {awayTeam?.name}
             </Link>
@@ -300,7 +300,7 @@ export default function LiveGameView({
         </div>
 
         {game.venue && (
-          <p className="mt-8 text-center text-sm text-zinc-500">
+          <p className="mt-5 break-words text-center text-xs text-zinc-500 sm:mt-8 sm:text-sm">
             {game.venue}
           </p>
         )}
@@ -316,9 +316,9 @@ export default function LiveGameView({
           Score by Quarter
         </h2>
 
-        <div className="overflow-hidden rounded-xl border border-zinc-800">
+        <div className="max-w-full overflow-x-auto rounded-xl border border-zinc-800">
 
-          <table className="w-full text-center">
+          <table className="w-full min-w-[480px] text-center">
 
             <thead className="bg-zinc-900 text-sm text-zinc-400">
 
@@ -377,7 +377,7 @@ export default function LiveGameView({
       {game.status === "live" && (
         <section className="mt-10">
 
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-3">
 
             <h2 className="text-2xl font-bold">
               Live Play-by-Play
@@ -393,7 +393,7 @@ export default function LiveGameView({
 
           </div>
 
-          <div className="mt-4 overflow-hidden rounded-xl border border-zinc-800">
+          <div className="mt-4 max-w-full overflow-x-auto rounded-xl border border-zinc-800">
 
             {events.length === 0 && (
               <p className="p-6 text-zinc-500">
@@ -412,7 +412,7 @@ export default function LiveGameView({
               return (
                 <div
                   key={event.id}
-                  className={`flex items-center justify-between border-b border-zinc-800 px-5 py-4 last:border-0 ${
+                  className={`flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800 px-5 py-4 last:border-0 ${
                     event.reversed_at
                       ? "opacity-30 line-through"
                       : ""
@@ -435,7 +435,7 @@ export default function LiveGameView({
 
                   </div>
 
-                  <div className="text-right">
+                  <div className="min-w-0 text-right">
 
                     <p className="font-mono">
                       {periodLabel(
@@ -500,7 +500,7 @@ function BoxScore({
         {teamName}
       </h2>
 
-      <div className="overflow-x-auto rounded-xl border border-zinc-800">
+      <div className="max-w-full overflow-x-auto rounded-xl border border-zinc-800">
 
         <table className="min-w-[1050px] w-full text-sm">
 
@@ -640,7 +640,7 @@ function GameStatus({
 }) {
   if (status === "live") {
     return (
-      <span className="rounded-full bg-red-600 px-4 py-2 text-xs font-bold uppercase text-white">
+      <span className="shrink-0 whitespace-nowrap rounded-full bg-red-600 px-4 py-2 text-xs font-bold uppercase text-white">
         ● Live
       </span>
     );
@@ -648,14 +648,14 @@ function GameStatus({
 
   if (status === "finished") {
     return (
-      <span className="rounded-full bg-zinc-700 px-4 py-2 text-xs font-bold uppercase">
+      <span className="shrink-0 whitespace-nowrap rounded-full bg-zinc-700 px-4 py-2 text-xs font-bold uppercase">
         Final
       </span>
     );
   }
 
   return (
-    <span className="rounded-full bg-yellow-600 px-4 py-2 text-xs font-bold uppercase text-black">
+    <span className="shrink-0 whitespace-nowrap rounded-full bg-yellow-600 px-4 py-2 text-xs font-bold uppercase text-black">
       Scheduled
     </span>
   );
