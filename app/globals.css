@@ -1,0 +1,522 @@
+@import "tailwindcss";
+
+/* =====================================================
+   OBS BASKETBALL LEAGUE
+   GLOBAL THEME
+   ===================================================== */
+
+:root {
+  color-scheme: light;
+
+  --background: #f4f7fb;
+  --foreground: #101828;
+
+  --card: #ffffff;
+  --card-foreground: #101828;
+
+  --surface: #f8fafc;
+  --surface-2: #edf3f8;
+  --surface-3: #e3ebf3;
+
+  --muted-foreground: #667085;
+  --muted-foreground-2: #475467;
+  --subtle-foreground: #98a2b3;
+
+  --border: #d7e0ea;
+  --border-strong: #bdc9d6;
+
+  --primary: #126b9c;
+  --primary-hover: #0e5c87;
+  --primary-soft: #e8f3f9;
+  --primary-foreground: #ffffff;
+
+  --success: #15803d;
+  --warning: #b45309;
+  --danger: #dc2626;
+
+  --shadow-card:
+    0 1px 2px rgba(16, 24, 40, 0.04),
+    0 4px 12px rgba(16, 24, 40, 0.04);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --background: #060b12;
+  --foreground: #f5f7fa;
+
+  --card: #0d1621;
+  --card-foreground: #f5f7fa;
+
+  --surface: #101b28;
+  --surface-2: #162333;
+  --surface-3: #1d2d3f;
+
+  --muted-foreground: #a8b4c3;
+  --muted-foreground-2: #c3ccd7;
+  --subtle-foreground: #75859a;
+
+  --border: #243447;
+  --border-strong: #34475d;
+
+  --primary: #2188bd;
+  --primary-hover: #32a0d7;
+  --primary-soft: #102d40;
+  --primary-foreground: #ffffff;
+
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --danger: #f87171;
+
+  --shadow-card:
+    0 1px 2px rgba(0, 0, 0, 0.18),
+    0 8px 24px rgba(0, 0, 0, 0.16);
+}
+
+
+/* =====================================================
+   DOCUMENT
+   ===================================================== */
+
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+
+  background: var(--background);
+  color: var(--foreground);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+::selection {
+  background: var(--primary);
+  color: white;
+}
+
+
+/* =====================================================
+   MOBILE FOUNDATION
+   ===================================================== */
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a {
+  touch-action: manipulation;
+}
+
+input,
+select,
+textarea,
+button {
+  min-height: 44px;
+}
+
+input,
+select,
+textarea {
+  font-size: 16px;
+}
+
+.mobile-scroll-x,
+.table-scroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.safe-bottom {
+  padding-bottom:
+    max(
+      1rem,
+      env(safe-area-inset-bottom)
+    );
+}
+
+
+/* =====================================================
+   SEMANTIC OBS CLASSES
+   ===================================================== */
+
+.obs-shell {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.obs-card {
+  background: var(--card);
+  color: var(--card-foreground);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 1rem;
+
+  box-shadow:
+    var(--shadow-card);
+}
+
+.obs-surface {
+  background: var(--surface);
+  color: var(--foreground);
+}
+
+.obs-muted {
+  color: var(--muted-foreground);
+}
+
+.obs-border {
+  border-color: var(--border);
+}
+
+.obs-link {
+  color: var(--primary);
+}
+
+.obs-link:hover {
+  color: var(--primary-hover);
+}
+
+
+/* =====================================================
+   BUTTONS
+   ===================================================== */
+
+.obs-button-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+
+  border:
+    1px solid
+    var(--primary);
+
+  border-radius: 0.75rem;
+  font-weight: 700;
+
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+.obs-button-primary:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+.obs-button-primary:active {
+  transform: scale(0.98);
+}
+
+.obs-button-secondary {
+  background: var(--card);
+  color: var(--foreground);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 0.75rem;
+  font-weight: 700;
+
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.obs-button-secondary:hover {
+  background: var(--surface-2);
+  border-color: var(--border-strong);
+}
+
+
+/* =====================================================
+   FORM ELEMENTS
+   ===================================================== */
+
+input,
+select,
+textarea {
+  color: var(--foreground);
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--subtle-foreground);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary);
+
+  box-shadow:
+    0 0 0 3px
+    color-mix(
+      in srgb,
+      var(--primary) 15%,
+      transparent
+    );
+}
+
+select option {
+  background: var(--card);
+  color: var(--foreground);
+}
+
+
+/* =====================================================
+   LEGACY ZINC COMPATIBILITY
+   ===================================================== */
+
+.bg-zinc-950 {
+  background-color: var(--surface) !important;
+}
+
+.bg-zinc-900 {
+  background-color: var(--card) !important;
+}
+
+.bg-zinc-800 {
+  background-color: var(--surface-2) !important;
+}
+
+.bg-zinc-700 {
+  background-color: var(--surface-3) !important;
+}
+
+.bg-zinc-950,
+.bg-zinc-900,
+.bg-zinc-800,
+.bg-zinc-700 {
+  color: var(--foreground);
+}
+
+.text-zinc-50,
+.text-zinc-100,
+.text-zinc-200 {
+  color: var(--foreground) !important;
+}
+
+.text-zinc-300 {
+  color: var(--muted-foreground-2) !important;
+}
+
+.text-zinc-400 {
+  color: var(--muted-foreground) !important;
+}
+
+.text-zinc-500,
+.text-zinc-600 {
+  color: var(--subtle-foreground) !important;
+}
+
+.text-zinc-700,
+.text-zinc-800,
+.text-zinc-900,
+.text-zinc-950 {
+  color: var(--foreground) !important;
+}
+
+.border-zinc-950,
+.border-zinc-900,
+.border-zinc-800 {
+  border-color: var(--border) !important;
+}
+
+.border-zinc-700,
+.border-zinc-600 {
+  border-color: var(--border-strong) !important;
+}
+
+.divide-zinc-950 > :not([hidden]) ~ :not([hidden]),
+.divide-zinc-900 > :not([hidden]) ~ :not([hidden]),
+.divide-zinc-800 > :not([hidden]) ~ :not([hidden]),
+.divide-zinc-700 > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--border) !important;
+}
+
+.hover\:bg-zinc-950:hover,
+.hover\:bg-zinc-900:hover {
+  background-color: var(--surface) !important;
+}
+
+.hover\:bg-zinc-800:hover,
+.hover\:bg-zinc-700:hover {
+  background-color: var(--surface-2) !important;
+}
+
+.hover\:text-white:hover,
+.hover\:text-zinc-100:hover,
+.hover\:text-zinc-200:hover {
+  color: var(--foreground) !important;
+}
+
+
+/* =====================================================
+   TABLES
+   ===================================================== */
+
+table {
+  color: var(--foreground);
+}
+
+thead {
+  color: var(--muted-foreground);
+}
+
+tbody tr {
+  border-color: var(--border);
+}
+
+tbody tr:hover {
+  background: var(--surface);
+}
+
+
+/* =====================================================
+   MOBILE TYPOGRAPHY / SPACING
+   ===================================================== */
+
+@media (max-width: 767px) {
+  body {
+    font-size: 15px;
+  }
+
+  main {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  h1 {
+    line-height: 1.05;
+  }
+
+  h2 {
+    line-height: 1.1;
+  }
+
+  .obs-card {
+    border-radius: 0.875rem;
+  }
+
+  table {
+    font-size: 13px;
+  }
+
+  th,
+  td {
+    white-space: nowrap;
+  }
+
+  button,
+  .obs-button-primary,
+  .obs-button-secondary {
+    min-height: 44px;
+  }
+}
+
+
+/* =====================================================
+   VERY SMALL PHONES
+   ===================================================== */
+
+@media (max-width: 420px) {
+  body {
+    font-size: 14px;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+  }
+}
+
+
+/* =====================================================
+   DARK / LIGHT SPECIAL CASES
+   ===================================================== */
+
+html[data-theme="dark"] .bg-white {
+  background-color: var(--card);
+}
+
+html[data-theme="dark"] .bg-white.text-black {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+
+/* =====================================================
+   SCROLLBAR
+   ===================================================== */
+
+* {
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    var(--border-strong)
+    var(--background);
+}
+
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+
+  border:
+    2px solid
+    var(--background);
+
+  border-radius: 999px;
+}
