@@ -25,12 +25,18 @@ type AIMedia =
       timestampLabel?: string | null;
     };
 
+let openrouter: OpenAI | null = null;
 
+function getOpenRouter() {
+  requireOpenRouterKey();
 
-const openrouter = new OpenAI({
-  baseURL: "https://openrouter.ai/api/v1",
-  apiKey: process.env.OPENROUTER_API_KEY,
-});
+  openrouter ??= new OpenAI({
+    baseURL: "https://openrouter.ai/api/v1",
+    apiKey: process.env.OPENROUTER_API_KEY,
+  });
+
+  return openrouter;
+}
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabasePublishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
@@ -409,7 +415,7 @@ export async function POST(request: Request) {
     ];
 
     for (let round = 0; round < 8; round++) {
-      const completion = await openrouter.chat.completions.create({
+      const completion = await getOpenRouter().chat.completions.create({
         model: MODEL,
         messages: chatMessages,
         tools,
