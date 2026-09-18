@@ -1082,27 +1082,6 @@ function requireOpenRouterKey() {
   }
 }
 
-function parseMediaJson(text: string): MediaVideoAnalysis | { raw: string } {
-  const cleaned = text
-    .replace(/^```json\s*/i, "")
-    .replace(/^```\s*/i, "")
-    .replace(/\s*```$/i, "")
-    .trim();
-
-  try {
-    return JSON.parse(cleaned);
-  } catch {
-    const first = cleaned.indexOf("{");
-    const last = cleaned.lastIndexOf("}");
-    if (first >= 0 && last > first) {
-      try {
-        return JSON.parse(cleaned.slice(first, last + 1));
-      } catch {}
-    }
-    return { raw: text };
-  }
-}
-
 function photoMedia(photo: any, album: any): AIMedia {
   const driveId = String(photo.drive_file_id);
   return {

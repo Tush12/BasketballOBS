@@ -152,7 +152,6 @@ const cantonese: Record<string, string> = {
   players: "位球員",
   Fixtures: "賽程",
   "Ongoing Matches": "進行中賽事",
-  "Scheduled Games": "已排期賽事",
   "Live Now": "現正進行",
   "Resume Scoring": "繼續計分",
   "All Games →": "所有賽事 →",
@@ -347,7 +346,6 @@ const cantonese: Record<string, string> = {
   "No game log available yet.": "暫時未有賽事紀錄。",
   "Home Team": "主隊",
   "Away Team": "客隊",
-  "Home": "主頁",
   "Away": "客隊",
   "Final": "完場",
 };
@@ -403,7 +401,7 @@ const patterns: Array<[RegExp, (...matches: string[]) => string]> = [
 ];
 
 export function translateToCantonese(value: string) {
-  const match = value.match(/^(\s*)(.*?)(\s*)$/s);
+  const match = value.match(/^(\s*)([\s\S]*?)(\s*)$/);
 
   if (!match || !match[2]) {
     return value;

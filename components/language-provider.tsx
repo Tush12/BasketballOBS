@@ -31,7 +31,7 @@ export function LanguageProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const language = useSyncExternalStore(
+  const language = useSyncExternalStore<Language>(
     subscribeToLanguage,
     getStoredLanguage,
     () => "en"
