@@ -1370,11 +1370,32 @@ export default function PlayersClient({
       </div>
 
 
+      <div className="mt-5 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3 md:hidden">
+        {filteredPlayers.map(
+          (row) => (
+            <MobilePlayerCard
+              key={`${row.season_id}-${row.team_id}-${row.player_id}`}
+              row={row}
+              statMode={statMode}
+              profileQuery={profileQuery}
+            />
+          )
+        )}
+
+        {filteredPlayers.length ===
+          0 && (
+          <div className="rounded-xl border border-zinc-800 px-6 py-12 text-center text-zinc-500">
+            No players match the current filters.
+          </div>
+        )}
+      </div>
+
+
       {/* =================================================
           TABLE
           ================================================= */}
 
-      <div className="mt-5 overflow-x-auto rounded-xl border border-zinc-800">
+      <div className="mt-5 hidden overflow-x-auto rounded-xl border border-zinc-800 md:block">
 
         <table className="min-w-[1750px] w-full text-sm">
 
@@ -1881,6 +1902,201 @@ function Cell({
     >
       {value}
     </td>
+  );
+}
+
+
+function MobilePlayerCard({
+  row,
+  statMode,
+  profileQuery,
+}: {
+  row: PlayerRow;
+  statMode: StatMode;
+  profileQuery: string;
+}) {
+  const pointValue =
+    statMode === "per_game"
+      ? row.ppg
+      : row.total_points;
+
+  const reboundValue =
+    statMode === "per_game"
+      ? row.rpg
+      : row.total_rebounds;
+
+  const assistValue =
+    statMode === "per_game"
+      ? row.apg
+      : row.total_assists;
+
+  return (
+    <article className="min-w-0 max-w-full rounded-xl border border-zinc-800 bg-zinc-950 p-3.5">
+      <div className="flex min-w-0 items-center gap-3">
+        <div
+          className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border text-xs font-black"
+          style={{
+            borderColor:
+              "var(--border)",
+            background:
+              "var(--card)",
+            color:
+              "var(--primary)",
+          }}
+        >
+          {row.photo_path ? (
+            <img
+              src={
+                mediaPublicUrl(
+                  row.photo_path
+                ) ??
+                ""
+              }
+              alt={row.player_name}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            row.player_name
+              .trim()
+              .slice(
+                0,
+                2
+              )
+              .toUpperCase()
+          )}
+        </div>
+
+        <div
+          className="flex h-10 min-w-10 shrink-0 items-center justify-center rounded-lg border px-2 text-sm font-black"
+          style={{
+            borderColor:
+              "var(--border)",
+            background:
+              "var(--card)",
+          }}
+        >
+          {row.jersey_number ??
+            "—"}
+        </div>
+
+        <div className="min-w-0 flex-1">
+          <Link
+            href={`/players/${row.player_id}${profileQuery ? `?${profileQuery}` : ""}`}
+            className="block truncate text-base font-black hover:underline"
+            title={
+              row.player_name
+            }
+          >
+            {row.player_name}
+          </Link>
+
+          <Link
+            href={`/teams/${row.team_id}${profileQuery ? `?${profileQuery}` : ""}`}
+            className="mt-1 block truncate text-sm text-zinc-400 hover:underline"
+          >
+            {row.team_name}
+          </Link>
+        </div>
+      </div>
+
+      <div className="mt-3 grid min-w-0 grid-cols-4 gap-1.5 text-center">
+        <MobileStat label="GP" value={row.games_played} />
+        <MobileStat
+          label={statMode === "per_game" ? "PPG" : "PTS"}
+          value={displayNumber(pointValue)}
+          highlight
+        />
+        <MobileStat
+          label={statMode === "per_game" ? "RPG" : "REB"}
+          value={displayNumber(reboundValue)}
+        />
+        <MobileStat
+          label={statMode === "per_game" ? "APG" : "AST"}
+          value={displayNumber(assistValue)}
+        />
+      </div>
+
+      <div className="mt-2.5 grid min-w-0 grid-cols-3 gap-1.5">
+        <MobileShootingStat
+          label="2PT"
+          made={row.two_made}
+          attempted={row.two_attempted}
+          percentage={row.two_pct}
+        />
+        <MobileShootingStat
+          label="3PT"
+          made={row.three_made}
+          attempted={row.three_attempted}
+          percentage={row.three_pct}
+        />
+        <MobileShootingStat
+          label="FT"
+          made={row.ft_made}
+          attempted={row.ft_attempted}
+          percentage={row.ft_pct}
+        />
+      </div>
+
+      <div className="mt-2.5 grid min-w-0 grid-cols-3 gap-1.5 text-center">
+        <MobileStat label="FG%" value={`${formatPercentage(row.fg_pct)}%`} />
+        <MobileStat label="EFF" value={displayNumber(row.efficiency)} />
+        <MobileStat label="Coast" value={coastLabel(row.division)} />
+      </div>
+    </article>
+  );
+}
+
+
+function MobileStat({
+  label,
+  value,
+  highlight = false,
+}: {
+  label: string;
+  value:
+    | string
+    | number;
+  highlight?: boolean;
+}) {
+  return (
+    <div className="min-w-0 rounded-lg border border-zinc-800 bg-zinc-900 px-1.5 py-1.5">
+      <p className="text-[10px] font-black uppercase tracking-wide text-zinc-500">
+        {label}
+      </p>
+      <p className={`mt-1 truncate text-sm font-black ${highlight ? "text-blue-300" : ""}`}>
+        {value}
+      </p>
+    </div>
+  );
+}
+
+
+function MobileShootingStat({
+  label,
+  made,
+  attempted,
+  percentage,
+}: {
+  label: string;
+  made: number;
+  attempted: number;
+  percentage: Numeric;
+}) {
+  return (
+    <div className="min-w-0 rounded-lg border border-zinc-800 bg-zinc-900 px-1.5 py-1.5 text-center">
+      <p className="text-[10px] font-black uppercase tracking-wide text-zinc-500">
+        {label}
+      </p>
+      <p className="mt-1 text-sm font-black">
+        {made}-{attempted}
+      </p>
+      <p className="mt-0.5 text-xs text-zinc-500">
+        {formatPercentage(
+          percentage
+        )}
+        %
+      </p>
+    </div>
   );
 }
 
